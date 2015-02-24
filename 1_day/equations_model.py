@@ -9,7 +9,7 @@ tau_in = 1.8  # ms
 A = 144
 u = 0.26
 
-#u = 1.0
+tau_rec = 1000
 
 # Then the paramters of the simulation
 dt = 0.1  # ms
@@ -50,7 +50,7 @@ spike_dummy = 1
 
 # Then the simulation
 for t in range(Nt - 1):
-    x[t + 1] = (((1 - x[t]) / tau_rec) - u * x[t] * spike_vector[t] / dt) * dt + x[t]
+    x[t + 1] = ((1 - x[t]) / tau_rec - u * x[t] * spike_vector[t] / dt) * dt + x[t]
     y[t + 1] = (-y[t] / tau_in + u * x[t] * spike_vector[t] / dt) * dt + y[t]
     V[t + 1] = (-V[t] + A * y[t]) * (dt / tau_mem) + V[t]
 
@@ -58,12 +58,16 @@ for t in range(Nt - 1):
 # Now we plot the results
 
 times = np.arange(0, T, dt)
-times_data = np.arange(0, 1200, 0.25)
+T_data = 1200
+dt_data = 1000.0 / 4000
+times_data = np.arange(0, T_data, dt_data)
 
 plt.subplot(1, 3, 1)
-plt.plot(times, x, label='x')
+plt.plot(times, x, label='Available resources x')
 plt.hold(True)
-plt.plot(times, y, label='y')
+plt.plot(times, y, label='Utilized resources y')
+plt.ylim([-0.1, 1.1])
+plt.xlim([-100, T])
 plt.legend()
 
 plt.subplot(1, 3, 2)
@@ -71,10 +75,18 @@ plt.plot(times, V, label='V_simulated')
 plt.legend()
 plt.xlabel('Time (ms)')
 plt.ylim([-0.5, 3])
+plt.xlim([-100, T])
 
 plt.subplot(1, 3, 3)
 plt.plot(times_data, V_mean, label='V_experiment')
 plt.legend()
 plt.ylim([-0.5, 3])
-plt.show()
+plt.xlim([-100, T_data])
+
+
+plot = True
+if plot:
+    mng = plt.get_current_fig_manager()
+    mng.window.showMaximized()
+    plt.show()
     
