@@ -1,8 +1,9 @@
 import h5py
 
+
 # First extract the file
 file = 'module2.h5'
-f = h5py.File(file, 'r')
+f = h5py.File(file, 'a')
 
 # Extract data and metadata
 data = f['data']

@@ -12,7 +12,6 @@ if True:
     plt.plot(V_mean, label='V_experiment')
     plt.legend()
     plt.ylim([-0.5, 3])
-    #plt.xlim([-100, T_data])
     plt.hold(True)
 
 # We need to extract a vector of the maximums
