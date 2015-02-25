@@ -55,6 +55,7 @@ for activity_index, activity in enumerate(spike_activities):
     plt.ylabel('Firing rate (Hz)')
     #red_patch = mpatches.Patch(color='red', label='The red data')
     #plt.legend(handles=[red_patch])
+    # Trying
     plt.legend()
 
 
