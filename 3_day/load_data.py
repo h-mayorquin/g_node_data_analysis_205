@@ -10,14 +10,14 @@ data = full_data['data/p-unit']
 data_arrays = data['data_arrays']
  
 # We extract the responses and stimulus
-responses_strong = data_arrays['responses_strong/data']
-responses_weak = data_arrays['responses_weak/data']
+responses_strong_1 = data_arrays['responses_strong/data']
+responses_weak_1 = data_arrays['responses_weak/data']
 
-stimulus_strong = data_arrays['stimulus_strong/data']
-stimulus_weak = data_arrays['stimulus_weak/data']
+stimulus_strong_1 = data_arrays['stimulus_strong/data']
+stimulus_weak_1 = data_arrays['stimulus_weak/data']
 
 # We make deep copies
-responses_strong = deepcopy(responses_strong)
-responses_weak = deepcopy(responses_weak)
-stimulus_strong = deepcopy(stimulus_strong)
-stimulus_weak = deepcopy(stimulus_weak)
+responses_strong = deepcopy(responses_strong_1[:])
+responses_weak = deepcopy(responses_weak_1[:])
+stimulus_strong = deepcopy(stimulus_strong_1[:])
+stimulus_weak = deepcopy(stimulus_weak_1[:])
