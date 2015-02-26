@@ -22,8 +22,6 @@ window_size = 100.0  # ms
 window_size = window_size / 1000.0  # s
 
 w = floor(window_size * sampling_rate)
-kernel = scipy.signal.get_window(('gaussian', 100), w)
-kernel2 = scipy.signal.get_window(('gaussian', 50), w)
 kernel = scipy.signal.get_window(('gaussian', 25), w)
 
 firing_rates = np.zeros((N_trials, N_data))
@@ -40,35 +38,18 @@ for index, signal in enumerate(responses_strong.T):
 
 
 firing_rate = np.mean(firing_rates, axis=0)
+N_to_use = 2 ** 14
+step = 1 / sampling_rate
+transform = np.fft.rfft(firing_rate, N_to_use)
+freq = np.fft.fftfreq(N_to_use, d=step)
+freq_aux = freq[0:N_to_use / 2]
 
-if plot_firing_rate:
-    plt.plot(time, firing_rate,  color='k',
-             linewidth=5.0, label='mean of trials')
-    plt.xlabel('Time (ms)')
-    plt.ylabel('Firing rate (Hz)')
-    plt.show()
+power = np.abs(transform[:-1])**2
+plt.plot(freq_aux, power, 'o-')
+plt.show()
 
-
-# We normalize to calculate the correlations
-stimulus_strong -= np.mean(stimulus_strong)
-stimulus_strong /= np.std(stimulus_strong) * len(stimulus_strong)
-
-firing_rate -= np.mean(firing_rate)
-firing_rate /= np.std(firing_rate)
-
-# Now we calculate the correlation
-xcorr = np.correlate(stimulus_strong, firing_rate, mode=mode)
-
-# We shitf the correlations to have 0 lag in 0
-correlation_window = size_to_use * 1000.0 / (sampling_rate * 2)
-correlation_time = time - correlation_window
-
-if plot_correlation:
-    plt.plot(correlation_time, xcorr)
-    plt.xlabel('Time (ms)')
-    plt.ylabel('Correlation normalized')
-    plt.xlim([-correlation_window, correlation_window])
-    plt.show()
+# Plot the things
+#plt.subplot(1, 2, 1)
 
 
-    
+#plt.subplot(1, 2, 2)
