@@ -19,7 +19,7 @@ def return_best_model(X, Y, N, C, penalties):
 
     rsearch = GridSearchCV(estimator=lg, param_grid=param_grid, cv=skf)
     rsearch.fit(X, Y)
-    
+g    
     return rsearch.best_estimator_, rsearch.best_score_, rsearch
 
 
